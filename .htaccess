@@ -1,3 +1,3 @@
 RewriteEngine On
-RewriteRule ^hotels/?$ hotel.php [NC,L]
+RewriteRule ^hotel/?$ hotel.php [NC,L]
 RewriteRule ^hotel/([0-9]+)/?$ hotel.php?id=$1 [NC,L]
