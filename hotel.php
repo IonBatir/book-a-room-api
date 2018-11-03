@@ -41,21 +41,21 @@ switch ($_SERVER['REQUEST_METHOD']) {
   case 'POST':
     $data = json_decode(file_get_contents("php://input"));
     if (
-      !empty($data->id) &&
-      !empty($data->name) &&
-      !empty($data->nr_stars) &&
-      !empty($data->nr_floors) &&
-      !empty($data->address) &&
-      !empty($data->city_id) &&
-      !empty($data->description) &&
-      !empty($data->swimming_pool) &&
-      !empty($data->gym) &&
-      !empty($data->restaurant) &&
-      !empty($data->bar) &&
-      !empty($data->wifi) &&
-      !empty($data->car_hire) &&
-      !empty($data->parking) &&
-      !empty($data->laundry)
+      isset($data->id) &&
+      isset($data->name) &&
+      isset($data->nr_stars) &&
+      isset($data->nr_floors) &&
+      isset($data->address) &&
+      isset($data->city_id) &&
+      isset($data->description) &&
+      isset($data->swimming_pool) &&
+      isset($data->gym) &&
+      isset($data->restaurant) &&
+      isset($data->bar) &&
+      isset($data->wifi) &&
+      isset($data->car_hire) &&
+      isset($data->parking) &&
+      isset($data->laundry)
     ) {
       $hotel->id = $data->id;
       $hotel->name = $data->name;
