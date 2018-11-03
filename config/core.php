@@ -12,6 +12,12 @@ class Response {
 }
 
 class Utils {
+  public static function sanitize_fields($fields) {
+    foreach ($fields as $field) {
+      $fields->{$field} = htmlspecialchars(strip_tags($fields->{$field}));
+    }
+  }
+
   public static function isset_all($object, $fields) {
     $isset_all = true;
     foreach ($fields as $field)
