@@ -43,19 +43,19 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    if (Utils::isset_all($hotel, $hotel->fields))
+    if (Utils::isset_all($data, $hotel->fields))
       $hotel->update_hotel() ? Response::send(200, array("message" => "Hotel was updated.")) : Response::send(503, array("message" => "Unable to update hotel."));
     else
       Response::send(400, array("message" => "Unable to update hotel. Data is incomplete."));
     break;
   case 'POST':
-    if (Utils::isset_all($hotel, $hotel->fields))
+    if (Utils::isset_all($data, $hotel->fields))
       $hotel->add_hotel() ? Response::send(201, array("message" => "Hotel was added.")) : Response::send(503, array("message" => "Unable to add hotel."));
     else
       Response::send(400, array("message" => "Unable to add hotel. Data is incomplete."));
     break;
   case 'DELETE':
-    if (isset($hotel->id))
+    if (isset($data->id))
       $hotel->delete_hotel() ? Response::send(200, array("message" => "Hotel was deleted.")) : Response::send(503, array("message" => "Unable to delete hotel."));
     else
       Response::send(400, array("message" => "Unable to add hotel. Data is incomplete."));
