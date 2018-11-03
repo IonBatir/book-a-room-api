@@ -16,6 +16,16 @@ $hotel = new Hotel($db);
 
 $hotel->id = isset($_GET['id']) ? $_GET['id'] : NULL;
 
+$data = json_decode(file_get_contents("php://input"));
+
+if (Utils::isset_all($data)) {
+  Utils::sanitize_fields($data);
+  foreach ($hotel->fields as $field)
+    $hotel->{$field} = $data->{$field};
+} else {
+  $data = NULL;
+}
+
 switch ($_SERVER['REQUEST_METHOD']) {
   case 'GET':
     $result = $hotel->id ? $hotel->get_hotel() : $hotel->get_hotels();
@@ -35,18 +45,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    // Update
-    
+    if ($data) {
+      $hotel->update_hotel() ? Response::send(200, array("message" => "Hotel was updated.")) : Response::send(503, array("message" => "Unable to update hotel."));
+    } else {
+      Response::send(400, array("message" => "Unable to update hotel. Data is incomplete."));
+    }
     break;
   case 'POST':
-    $data = json_decode(file_get_contents("php://input"));
-    if (Utils::isset_all($data, $hotel->fields)) {
-      foreach ($hotel->fields as $field)
-        $hotel->{$field} = $data->{$field};
+    if ($data) {
       $hotel->add_hotel() ? Response::send(201, array("message" => "Hotel was added.")) : Response::send(503, array("message" => "Unable to add hotel."));
     } else {
       Response::send(400, array("message" => "Unable to add hotel. Data is incomplete."));
-  }
+    }
     break;
   case 'DELETE':
     break;
