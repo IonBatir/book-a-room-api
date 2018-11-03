@@ -39,7 +39,7 @@ class Hotel {
   }
 
   function get_hotel() {
-    $query = "SELECT * FROM ".$this->table_name." WHERE id = :id LIMIT :id";
+    $query = "SELECT * FROM ".$this->table_name." WHERE id = :id LIMIT 1";
 
     $stmt = $this->conn->prepare($query);
 
