@@ -18,7 +18,7 @@ $hotel->id = isset($_GET['id']) ? $_GET['id'] : NULL;
 
 $data = json_decode(file_get_contents("php://input"));
 
-if (Utils::isset_all($data)) {
+if (Utils::isset_all($data, $hotel->fields)) {
   Utils::sanitize_fields($data);
   foreach ($hotel->fields as $field)
     $hotel->{$field} = $data->{$field};
