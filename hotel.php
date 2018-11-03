@@ -41,7 +41,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
   case 'POST':
     $data = json_decode(file_get_contents("php://input"));
     if (Utils::isset_all($data, $hotel->fields)) {
-      foreach ($this->fields as $field)
+      foreach ($hotel->fields as $field)
         $hotel->{$field} = $data->{$field};
       $hotel->add_hotel() ? Response::send(201, array("message" => "Hotel was added.")) : Response::send(503, array("message" => "Unable to add hotel."));
     } else {
