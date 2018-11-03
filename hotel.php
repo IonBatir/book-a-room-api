@@ -22,11 +22,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
       $result = $hotel->getHotelById();
       if ($result->rowCount()) {
         $row = $result->fetch(PDO::FETCH_ASSOC);
-        http_response_code(200);
-        echo json_encode(array("hotel" => $row));
+        Response::send(200, array("hotel" => $row));
       } else {
-        http_response_code(404);
-        echo json_encode(array("message" => "Hotel not found."));
+        Response::send(404, array("message" => "Hotel not found."));
       }
     } else {
       $result = $hotel->getHotels();
@@ -35,13 +33,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
         while($row = $result->fetch(PDO::FETCH_ASSOC)) {
           array_push($response["hotels"], $row);
         }
-        http_response_code(200);
-        echo json_encode($response);
+        Response::send(200, $response);
       } else {
-        http_response_code(404);
-        echo json_encode(
-          array("message" => "No hotels found.")
-        );
+        Response::send(404, array("message" => "No hotels found."));
       }
     }
     break;
