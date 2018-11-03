@@ -20,16 +20,12 @@ switch ($_SERVER['REQUEST_METHOD']) {
     if($hotel->id) {
       $result = $hotel->getHotelById();
       if ($result->rowCount()) {
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        $response["hotel"] = array();
-        array_push($response["hotel"], $row);
+        $row = $result->fetch(PDO::FETCH_ASSOC);
         http_response_code(200);
-        echo json_encode($response);
+        echo json_encode(array("hotel" => $row));
       } else {
         http_response_code(404);
-        echo json_encode(
-          array("message" => "Hotel not found.")
-        );
+        echo json_encode(array("message" => "Hotel not found."));
       }
     } else {
       $result = $hotel->getHotels();
@@ -49,13 +45,10 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    $sql = "update `$table` set $set where id=$key"; 
     break;
   case 'POST':
-    $sql = "insert into `$table` set $set"; 
     break;
   case 'DELETE':
-    $sql = "delete `$table` where id=$key"; 
     break;
 }
 

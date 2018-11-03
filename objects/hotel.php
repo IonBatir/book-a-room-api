@@ -29,7 +29,9 @@ class Hotel {
 
       $stmt = $this->conn->prepare($query);
    
-      return $stmt->execute();
+      $stmt->execute();
+
+      return $stmt;
   }
 
   function getHotelById() {
@@ -38,7 +40,9 @@ class Hotel {
     $stmt = $this->conn->prepare($query);
 
     $stmt->bindParam(1, $this->id);
- 
-    return $stmt->execute();
+
+    $stmt->execute();
+
+    return $stmt;
   }
 }
