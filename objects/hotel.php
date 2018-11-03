@@ -66,10 +66,11 @@ class Hotel {
     $query = "UPDATE ".$this->table_name." SET ";
     for ($i = 1; $i < $this->nr_fields; $i++)
       if ($i == $this->nr_fields - 1)
-        $query .= $this->fields[$i].") WHERE id = :id";
+        $query .= $this->fields[$i]." = :".$this->fields[$i].") WHERE id = :id";
       else
         $query .= $this->fields[$i]." = :".$this->fields[$i].", ";
 
+        
     $stmt = $this->conn->prepare($query);
 
     foreach ($this->fields as $field)

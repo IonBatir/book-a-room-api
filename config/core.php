@@ -14,7 +14,7 @@ class Response {
 class Utils {
   public static function sanitize_fields($fields) {
     foreach ($fields as $field) {
-      $fields->{$field} = htmlspecialchars(strip_tags($fields->{$field}));
+      $field = htmlspecialchars(strip_tags($field));
     }
   }
 
