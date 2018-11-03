@@ -20,7 +20,7 @@ $data = json_decode(file_get_contents("php://input"));
 
 if ($data) {
   Utils::sanitize_fields($data);
-  foreach ($data as $field)
+  foreach ($hotel->fields as $field)
     $hotel->{$field} = $data->{$field};
 }
 
