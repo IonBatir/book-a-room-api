@@ -58,7 +58,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
     if (isset($data->id))
       $hotel->delete_hotel() ? Response::send(200, array("message" => "Hotel was deleted.")) : Response::send(503, array("message" => "Unable to delete hotel."));
     else
-      Response::send(400, array("message" => "Unable to add hotel. Data is incomplete."));
+      Response::send(400, array("message" => "Unable to delete hotel. Data is incomplete."));
     break;
 }
 
