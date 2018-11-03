@@ -72,7 +72,7 @@ class Hotel {
       if ($i == $this->nr_fields - 1)
         $query .= $this->fields[$i]." = :".$this->fields[$i]." WHERE id = :id";
       else
-        $query .= $this->fields[$i]." = :".$this->fields[$i].", ";
+        $query .= $this->fields[$i]." = :".$this->fields[$i].", ";
         
     $stmt = $this->conn->prepare($query);
 
