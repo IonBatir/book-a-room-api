@@ -39,7 +39,44 @@ switch ($_SERVER['REQUEST_METHOD']) {
     
     break;
   case 'POST':
-    // Insert
+    $data = json_decode(file_get_contents("php://input"));
+    if (
+      !empty($data->id) &&
+      !empty($data->name) &&
+      !empty($data->nr_stars) &&
+      !empty($data->nr_floors) &&
+      !empty($data->address) &&
+      !empty($data->city_id) &&
+      !empty($data->description) &&
+      !empty($data->swimming_pool) &&
+      !empty($data->gym) &&
+      !empty($data->restaurant) &&
+      !empty($data->bar) &&
+      !empty($data->wifi) &&
+      !empty($data->car_hire) &&
+      !empty($data->parking) &&
+      !empty($data->laundry)
+    ) {
+      $hotel->id = $data->id;
+      $hotel->name = $data->name;
+      $hotel->nr_stars = $data->nr_stars;
+      $hotel->nr_floors = $data->nr_floors;
+      $hotel->address = $data->address;
+      $hotel->city_id = $data->city_id;
+      $hotel->description = $data->description;
+      $hotel->swimming_pool = $data->swimming_pool;
+      $hotel->gym = $data->gym;
+      $hotel->restaurant = $data->restaurant;
+      $hotel->bar = $data->bar;
+      $hotel->wifi = $data->wifi;
+      $hotel->car_hire = $data->car_hire;
+      $hotel->parking = $data->parking;
+      $hotel->laundry = $data->laundry;
+   
+      $hotel->add_hotel() ? Response::send(201, array("message" => "Hotel was added.")) : Response::send(503, array("message" => "Unable to add hotel."));
+    } else {
+      Response::send(400, array("message" => "Unable to add hotel. Data is incomplete."));
+  }
     break;
   case 'DELETE':
     break;
