@@ -18,25 +18,20 @@ $hotel->id = isset($_GET['id']) ? $_GET['id'] : NULL;
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case 'GET':
-    if($hotel->id) {
-      $result = $hotel->getHotelById();
-      if ($result->rowCount()) {
+    $result = $hotel->id ? $hotel->getHotelById() : $hotel->getHotels();
+    if ($result->rowCount()) {
+      if ($hotel->id) {
         $row = $result->fetch(PDO::FETCH_ASSOC);
-        Response::send(200, array("hotel" => $row));
+        $response = array("hotel" => $row);
       } else {
-        Response::send(404, array("message" => "Hotel not found."));
-      }
-    } else {
-      $result = $hotel->getHotels();
-      if ($result->rowCount()) {
         $response["hotels"] = array();
         while($row = $result->fetch(PDO::FETCH_ASSOC)) {
           array_push($response["hotels"], $row);
         }
-        Response::send(200, $response);
-      } else {
-        Response::send(404, array("message" => "No hotels found."));
       }
+      Response::send(200, $response);
+    } else {
+      Response::send(404, array("message" => "No hotel found."));
     }
     break;
   case 'PUT':
