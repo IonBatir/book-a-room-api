@@ -30,19 +30,23 @@ class Hotel {
 
   function get_hotels(){
     $query = "SELECT * FROM ".$this->table_name;
+
     $stmt = $this->conn->prepare($query);
   
     $stmt->execute();
+
     return $stmt;
   }
 
   function get_hotel() {
     $query = "SELECT * FROM ".$this->table_name." WHERE id = :id LIMIT :id";
+
     $stmt = $this->conn->prepare($query);
 
     $stmt->bindParam(":id", $this->id);
 
     $stmt->execute();
+
     return $stmt;
   }
 
@@ -66,10 +70,9 @@ class Hotel {
     $query = "UPDATE ".$this->table_name." SET ";
     for ($i = 1; $i < $this->nr_fields; $i++)
       if ($i == $this->nr_fields - 1)
-        $query .= $this->fields[$i]." = :".$this->fields[$i].") WHERE id = :id";
+        $query .= $this->fields[$i]." = :".$this->fields[$i]." WHERE id = :id";
       else
         $query .= $this->fields[$i]." = :".$this->fields[$i].", ";
-
         
     $stmt = $this->conn->prepare($query);
 
