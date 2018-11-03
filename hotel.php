@@ -40,39 +40,9 @@ switch ($_SERVER['REQUEST_METHOD']) {
     break;
   case 'POST':
     $data = json_decode(file_get_contents("php://input"));
-    if (
-      isset($data->id) &&
-      isset($data->name) &&
-      isset($data->nr_stars) &&
-      isset($data->nr_floors) &&
-      isset($data->address) &&
-      isset($data->city_id) &&
-      isset($data->description) &&
-      isset($data->swimming_pool) &&
-      isset($data->gym) &&
-      isset($data->restaurant) &&
-      isset($data->bar) &&
-      isset($data->wifi) &&
-      isset($data->car_hire) &&
-      isset($data->parking) &&
-      isset($data->laundry)
-    ) {
-      $hotel->id = $data->id;
-      $hotel->name = $data->name;
-      $hotel->nr_stars = $data->nr_stars;
-      $hotel->nr_floors = $data->nr_floors;
-      $hotel->address = $data->address;
-      $hotel->city_id = $data->city_id;
-      $hotel->description = $data->description;
-      $hotel->swimming_pool = $data->swimming_pool;
-      $hotel->gym = $data->gym;
-      $hotel->restaurant = $data->restaurant;
-      $hotel->bar = $data->bar;
-      $hotel->wifi = $data->wifi;
-      $hotel->car_hire = $data->car_hire;
-      $hotel->parking = $data->parking;
-      $hotel->laundry = $data->laundry;
-   
+    if (Utils::isset_all($data, $hotel->fields)) {
+      foreach ($this->fields as $field)
+        $hotel->{$field} = $data->{$field};
       $hotel->add_hotel() ? Response::send(201, array("message" => "Hotel was added.")) : Response::send(503, array("message" => "Unable to add hotel."));
     } else {
       Response::send(400, array("message" => "Unable to add hotel. Data is incomplete."));

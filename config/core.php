@@ -10,4 +10,16 @@ class Response {
     echo json_encode($response);
   }
 }
+
+class Utils {
+  public static function isset_all($object, $fields) {
+    $isset_all = true;
+    foreach ($fields as $field)
+      if (!isset($object->{$field})) {
+        $isset_all = false;
+        break;
+      }
+    return $isset_all;
+  }
+}
 ?>
