@@ -22,13 +22,10 @@ class Hotel {
   public $fields = array("id", "name", "nr_stars", "nr_floors", "address", "city_id",
   "description", "swimming_pool", "gym", "restaurant", "bar", "wifi", "car_hire", "parking", "laundry");
 
+  public $nr_fields = 15;
+
   public function __construct($db){
     $this->conn = $db;
-  }
-
-  function sanitize_fields() {
-    foreach ($this->fields as $field)
-      $this->{$field} = htmlspecialchars(strip_tags($this->{$field}));
   }
 
   function get_hotels(){
@@ -50,11 +47,30 @@ class Hotel {
   }
 
   function add_hotel() {
-    $query = "INSERT INTO ".$this->table_name." VALUES 
-    (:id, :name, :nr_stars, :nr_floors, :address, :city_id, :description, :swimming_pool, :gym, :restaurant, :bar, :wifi, :car_hire, :parking, :laundry)";
+    $query = "INSERT INTO ".$this->table_name." VALUES (";
+    for ($i = 0; $i < $this->nr_fields; $i++)
+      if ($i == $this->nr_fields - 1)
+        $query .= ":".$this->fields[$i].")";
+      else
+        $query .= ":".$this->fields[$i].", ";
+      
     $stmt = $this->conn->prepare($query);
 
-    $this->sanitize_fields();
+    foreach ($this->fields as $field)
+      $stmt->bindParam(":".$field, $this->{$field});
+
+    return $stmt->execute();
+  }
+
+  function update_hotel() {
+    $query = "UPDATE ".$this->table_name." SET ";
+    for ($i = 1; $i < $this->nr_fields; $i++)
+      if ($i == $this->nr_fields - 1)
+        $query .= $this->fields[$i].") WHERE id = :id";
+      else
+        $query .= $this->fields[$i]." = :".$this->fields[$i].", ";
+
+    $stmt = $this->conn->prepare($query);
 
     foreach ($this->fields as $field)
       $stmt->bindParam(":".$field, $this->{$field});
