@@ -23,7 +23,7 @@ class Hotel {
     $this->conn = $db;
   }
 
-  function getHotels(){
+  function get_hotels(){
     $query = "SELECT * FROM " . $this->table_name;
     $stmt = $this->conn->prepare($query);
   
@@ -31,7 +31,7 @@ class Hotel {
     return $stmt;
   }
 
-  function getHotelById() {
+  function get_hotel() {
     $query = "SELECT * FROM " . $this->table_name . " WHERE id = ? LIMIT 1";
     $stmt = $this->conn->prepare($query);
 
@@ -39,5 +39,9 @@ class Hotel {
 
     $stmt->execute();
     return $stmt;
+  }
+
+  function add_hotel() {
+
   }
 }

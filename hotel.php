@@ -18,7 +18,7 @@ $hotel->id = isset($_GET['id']) ? $_GET['id'] : NULL;
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case 'GET':
-    $result = $hotel->id ? $hotel->getHotelById() : $hotel->getHotels();
+    $result = $hotel->id ? $hotel->get_hotel() : $hotel->get_hotels();
     if ($result->rowCount()) {
       if ($hotel->id) {
         $row = $result->fetch(PDO::FETCH_ASSOC);
@@ -35,8 +35,11 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
+    // Update
+    
     break;
   case 'POST':
+    // Insert
     break;
   case 'DELETE':
     break;
