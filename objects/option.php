@@ -1,18 +1,15 @@
 <?php
-class Review {
+class Option {
   private $conn;
-  private $table_name = "reviews";
+  private $table_name = "options";
 
   public $id;
-  public $hotel_id;
-  public $customer_id;
-  public $review;
-  public $mark;
-  public $date;
+  public $name;
+  public $price;
 
-  public $fields = array("id", "hotel_id", "customer_id", "review", "mark", "date");
+  public $fields = array("id", "name", "price");
 
-  public $nr_fields = 6;
+  public $nr_fields = 3;
 
   public function __construct($db){
     $this->conn = $db;

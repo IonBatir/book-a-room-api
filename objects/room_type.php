@@ -1,16 +1,16 @@
 <?php
-class Review {
+class RoomType {
   private $conn;
-  private $table_name = "reviews";
+  private $table_name = "room_types";
 
   public $id;
-  public $hotel_id;
-  public $customer_id;
-  public $review;
-  public $mark;
-  public $date;
+  public $name;
+  public $nr_beds;
+  public $nr_persons;
+  public $kitchen;
+  public $animals;
 
-  public $fields = array("id", "hotel_id", "customer_id", "review", "mark", "date");
+  public $fields = array("id", "name", "nr_beds", "nr_persons", "kitchen", "animals");
 
   public $nr_fields = 6;
 
