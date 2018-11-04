@@ -1,3 +1,13 @@
 RewriteEngine On
+RewriteRule ^booking/?$ booking.php [NC,L]
+RewriteRule ^booking/([0-9]+)/?$ booking.php?id=$1 [NC,L]
+RewriteRule ^city/?$ city.php [NC,L]
+RewriteRule ^city/([0-9]+)/?$ city.php?id=$1 [NC,L]
+RewriteRule ^customer/?$ customer.php [NC,L]
+RewriteRule ^customer/([0-9]+)/?$ customer.php?id=$1 [NC,L]
 RewriteRule ^hotel/?$ hotel.php [NC,L]
 RewriteRule ^hotel/([0-9]+)/?$ hotel.php?id=$1 [NC,L]
+RewriteRule ^review/?$ review.php [NC,L]
+RewriteRule ^review/([0-9]+)/?$ review.php?id=$1 [NC,L]
+RewriteRule ^room/?$ room.php [NC,L]
+RewriteRule ^room/([0-9]+)/?$ room.php?id=$1 [NC,L]
