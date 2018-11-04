@@ -26,7 +26,7 @@ if ($data) {
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case 'GET':
-    $result = $hotel->id ? $hotel->get_hotel() : $hotel->get_hotels();
+    $result = $hotel->id ? $hotel->get() : $hotel->get_all();
     if ($result->rowCount()) {
       if ($hotel->id) {
         $row = $result->fetch(PDO::FETCH_ASSOC);
@@ -44,22 +44,21 @@ switch ($_SERVER['REQUEST_METHOD']) {
     break;
   case 'PUT':
     if (Utils::isset_all($data, $hotel->fields))
-      $hotel->update_hotel() ? Response::send(200, array("message" => "Hotel was updated.")) : Response::send(503, array("message" => "Unable to update hotel."));
+      $hotel->update() ? Response::send(200, array("message" => "Hotel was updated.")) : Response::send(503, array("message" => "Unable to update hotel."));
     else
       Response::send(400, array("message" => "Unable to update hotel. Data is incomplete."));
     break;
   case 'POST':
     if (Utils::isset_all($data, $hotel->fields))
-      $hotel->add_hotel() ? Response::send(201, array("message" => "Hotel was added.")) : Response::send(503, array("message" => "Unable to add hotel."));
+      $hotel->add() ? Response::send(201, array("message" => "Hotel was added.")) : Response::send(503, array("message" => "Unable to add hotel."));
     else
       Response::send(400, array("message" => "Unable to add hotel. Data is incomplete."));
     break;
   case 'DELETE':
     if (isset($data->id))
-      $hotel->delete_hotel() ? Response::send(200, array("message" => "Hotel was deleted.")) : Response::send(503, array("message" => "Unable to delete hotel."));
+      $hotel->delete() ? Response::send(200, array("message" => "Hotel was deleted.")) : Response::send(503, array("message" => "Unable to delete hotel."));
     else
       Response::send(400, array("message" => "Unable to delete hotel. Data is incomplete."));
     break;
 }
-
 ?>

@@ -28,7 +28,7 @@ class Hotel {
     $this->conn = $db;
   }
 
-  function get_hotels(){
+  function get_all(){
     $query = "SELECT * FROM ".$this->table_name;
 
     $stmt = $this->conn->prepare($query);
@@ -38,7 +38,7 @@ class Hotel {
     return $stmt;
   }
 
-  function get_hotel() {
+  function get() {
     $query = "SELECT * FROM ".$this->table_name." WHERE id = :id LIMIT 1";
 
     $stmt = $this->conn->prepare($query);
@@ -50,7 +50,7 @@ class Hotel {
     return $stmt;
   }
 
-  function add_hotel() {
+  function add() {
     $query = "INSERT INTO ".$this->table_name." VALUES (";
     for ($i = 0; $i < $this->nr_fields; $i++)
       if ($i == $this->nr_fields - 1)
@@ -66,7 +66,7 @@ class Hotel {
     return $stmt->execute();
   }
 
-  function update_hotel() {
+  function update() {
     $query = "UPDATE ".$this->table_name." SET ";
     for ($i = 1; $i < $this->nr_fields; $i++)
       if ($i == $this->nr_fields - 1)
@@ -82,7 +82,7 @@ class Hotel {
     return $stmt->execute();
   }
 
-  function delete_hotel() {
+  function delete() {
     $query = "DELETE FROM ".$this->table_name." WHERE id = :id";
 
     $stmt = $this->conn->prepare($query);
