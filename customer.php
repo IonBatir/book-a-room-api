@@ -55,7 +55,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
       Response::send(400, array("message" => "Unable to add customer. Data is incomplete."));
     break;
   case 'DELETE':
-    if (isset($data->id))
+    if (isset($customer->id))
       $customer->delete() ? Response::send(200, array("message" => "Customer was deleted.")) : Response::send(503, array("message" => "Unable to delete customer."));
     else
       Response::send(400, array("message" => "Unable to delete customer. Data is incomplete."));

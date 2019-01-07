@@ -55,7 +55,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
       Response::send(400, array("message" => "Unable to add booking. Data is incomplete."));
     break;
   case 'DELETE':
-    if (isset($data->id))
+    if (isset($booking->id))
       $booking->delete() ? Response::send(200, array("message" => "Booking was deleted.")) : Response::send(503, array("message" => "Unable to delete booking."));
     else
       Response::send(400, array("message" => "Unable to delete booking. Data is incomplete."));

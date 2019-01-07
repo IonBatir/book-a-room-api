@@ -55,7 +55,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
       Response::send(400, array("message" => "Unable to add room. Data is incomplete."));
     break;
   case 'DELETE':
-    if (isset($data->id))
+    if (isset($room->id))
       $room->delete() ? Response::send(200, array("message" => "Room was deleted.")) : Response::send(503, array("message" => "Unable to delete room."));
     else
       Response::send(400, array("message" => "Unable to delete room. Data is incomplete."));

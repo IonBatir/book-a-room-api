@@ -55,7 +55,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
       Response::send(400, array("message" => "Unable to add review. Data is incomplete."));
     break;
   case 'DELETE':
-    if (isset($data->id))
+    if (isset($review->id))
       $review->delete() ? Response::send(200, array("message" => "Review was deleted.")) : Response::send(503, array("message" => "Unable to delete review."));
     else
       Response::send(400, array("message" => "Unable to delete review. Data is incomplete."));

@@ -55,7 +55,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
       Response::send(400, array("message" => "Unable to add city. Data is incomplete."));
     break;
   case 'DELETE':
-    if (isset($data->id))
+    if (isset($city->id))
       $city->delete() ? Response::send(200, array("message" => "City was deleted.")) : Response::send(503, array("message" => "Unable to delete city."));
     else
       Response::send(400, array("message" => "Unable to delete city. Data is incomplete."));
