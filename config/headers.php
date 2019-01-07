@@ -1,5 +1,5 @@
 <?php
-    header("Access-Control-Allow-Origin: book-a-room.ionbatir.com");
+    header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
     header("Access-Control-Allow-Methods: *");
     header("Access-Control-Max-Age: 3600");
