@@ -11,19 +11,16 @@ class Hotel {
   public $address;
   public $city_id;
   public $description;
-  public $swimming_pool;
-  public $gym;
   public $restaurant;
-  public $bar;
   public $wifi;
   public $car_hire;
   public $parking;
   public $laundry;
 
   public $fields = array("id", "name", "nr_stars", "nr_floors", "address", "city_id",
-  "description", "swimming_pool", "gym", "restaurant", "bar", "wifi", "car_hire", "parking", "laundry");
+  "description", "restaurant", "wifi", "car_hire", "parking", "laundry");
 
-  public $nr_fields = 15;
+  public $nr_fields = 12;
 
   public function __construct($db){
     $this->conn = $db;
