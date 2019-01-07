@@ -2,7 +2,7 @@
 class Hotel {
   private $conn;
   private $table_name = "hotels";
-  private $view_name = "hotels_view"
+  private $view_name = "hotels_view";
 
   public $id;
   public $name;
