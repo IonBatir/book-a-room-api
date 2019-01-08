@@ -15,8 +15,11 @@ $data = json_decode(file_get_contents("php://input"));
 
 if ($data) {
   Utils::sanitize_fields($data);
-  foreach ($hotel->fields as $field)
-    $hotel->{$field} = $data->{$field};
+  if (Utils::isset_all($data, $hotel->fields))
+    foreach ($hotel->fields as $field)
+      $hotel->{$field} = $data->{$field};
+  else
+    exit("Data is incomplete.");
 }
 
 switch ($_SERVER['REQUEST_METHOD']) {
