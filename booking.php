@@ -13,11 +13,8 @@ $booking->id = isset($_GET['id']) ? $_GET['id'] : NULL;
 
 $data = json_decode(file_get_contents("php://input"));
 
-if ($data) {
+if ($data)
   Utils::sanitize_fields($data);
-  foreach ($booking->fields as $field)
-    $booking->{$field} = $data->{$field};
-}
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case 'GET':
@@ -38,16 +35,20 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    if (Utils::isset_all($booking, $booking->fields))
+    if (Utils::isset_all($data, $booking->fields)) {
+      foreach ($booking->fields as $field)
+        $booking->{$field} = $data->{$field};      
       $booking->update() ? Response::send(200, array("message" => "Booking was updated.")) : Response::send(503, array("message" => "Unable to update booking."));
-    else
+    } else
       Response::send(400, array("message" => "Unable to update booking. Data is incomplete."));
     break;
   case 'POST':
-    $booking->id = UUID::v4();
-    if (Utils::isset_all($booking, $booking->fields))
+    $data->id = UUID::v4();
+    if (Utils::isset_all($data, $booking->fields)) {
+      foreach ($booking->fields as $field)
+        $booking->{$field} = $data->{$field};
       $booking->add() ? Response::send(201, array("message" => "Booking was added.")) : Response::send(503, array("message" => "Unable to add booking."));
-    else
+    } else
       Response::send(400, array("message" => "Unable to add booking. Data is incomplete."));
     break;
   case 'DELETE':

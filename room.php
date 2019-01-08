@@ -13,11 +13,8 @@ $room->id = isset($_GET['id']) ? $_GET['id'] : NULL;
 
 $data = json_decode(file_get_contents("php://input"));
 
-if ($data) {
+if ($data)
   Utils::sanitize_fields($data);
-  foreach ($room->fields as $field)
-    $room->{$field} = $data->{$field};
-}
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case 'GET':
@@ -38,16 +35,20 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    if (Utils::isset_all($room, $room->fields))
+    if (Utils::isset_all($data, $room->fields)) {
+      foreach ($room->fields as $field)
+        $room->{$field} = $data->{$field};
       $room->update() ? Response::send(200, array("message" => "Room was updated.")) : Response::send(503, array("message" => "Unable to update room."));
-    else
+    } else
       Response::send(400, array("message" => "Unable to update room. Data is incomplete."));
     break;
   case 'POST':
-    $room->id = UUID::v4();
-    if (Utils::isset_all($room, $room->fields))
+    $data->id = UUID::v4();
+    if (Utils::isset_all($data, $room->fields)) {
+      foreach ($room->fields as $field)
+        $room->{$field} = $data->{$field};
       $room->add() ? Response::send(201, array("message" => "Room was added.")) : Response::send(503, array("message" => "Unable to add room."));
-    else
+    } else
       Response::send(400, array("message" => "Unable to add room. Data is incomplete."));
     break;
   case 'DELETE':

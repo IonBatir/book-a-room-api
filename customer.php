@@ -13,11 +13,8 @@ $customer->id = isset($_GET['id']) ? $_GET['id'] : NULL;
 
 $data = json_decode(file_get_contents("php://input"));
 
-if ($data) {
+if ($data)
   Utils::sanitize_fields($data);
-  foreach ($customer->fields as $field)
-    $customer->{$field} = $data->{$field};
-}
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case 'GET':
@@ -38,16 +35,20 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    if (Utils::isset_all($customer, $customer->fields))
+    if (Utils::isset_all($data, $customer->fields)) {
+      foreach ($customer->fields as $field)
+        $customer->{$field} = $data->{$field};
       $customer->update() ? Response::send(200, array("message" => "Customer was updated.")) : Response::send(503, array("message" => "Unable to update customer."));
-    else
+    } else
       Response::send(400, array("message" => "Unable to update customer. Data is incomplete."));
     break;
   case 'POST':
-    $customer->id = UUID::v4();
-    if (Utils::isset_all($customer, $customer->fields))
+    $data->id = UUID::v4();
+    if (Utils::isset_all($data, $customer->fields)) {
+      foreach ($customer->fields as $field)
+        $customer->{$field} = $data->{$field};
       $customer->add() ? Response::send(201, array("message" => "Customer was added.")) : Response::send(503, array("message" => "Unable to add customer."));
-    else
+    } else
       Response::send(400, array("message" => "Unable to add customer. Data is incomplete."));
     break;
   case 'DELETE':

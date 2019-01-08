@@ -13,11 +13,8 @@ $review->id = isset($_GET['id']) ? $_GET['id'] : NULL;
 
 $data = json_decode(file_get_contents("php://input"));
 
-if ($data) {
+if ($data)
   Utils::sanitize_fields($data);
-  foreach ($review->fields as $field)
-    $review->{$field} = $data->{$field};
-}
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case 'GET':
@@ -38,16 +35,20 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    if (Utils::isset_all($review, $review->fields))
+    if (Utils::isset_all($data, $review->fields)) {
+      foreach ($review->fields as $field)
+        $review->{$field} = $data->{$field};
       $review->update() ? Response::send(200, array("message" => "Review was updated.")) : Response::send(503, array("message" => "Unable to update review."));
-    else
+    } else
       Response::send(400, array("message" => "Unable to update review. Data is incomplete."));
     break;
   case 'POST':
-    $review->id = UUID::v4();
-    if (Utils::isset_all($review, $review->fields))
+    $data->id = UUID::v4();
+    if (Utils::isset_all($data, $review->fields)) {
+      foreach ($review->fields as $field)
+        $review->{$field} = $data->{$field};
       $review->add() ? Response::send(201, array("message" => "Review was added.")) : Response::send(503, array("message" => "Unable to add review."));
-    else
+    } else
       Response::send(400, array("message" => "Unable to add review. Data is incomplete."));
     break;
   case 'DELETE':

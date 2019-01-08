@@ -13,11 +13,8 @@ $city->id = isset($_GET['id']) ? $_GET['id'] : NULL;
 
 $data = json_decode(file_get_contents("php://input"));
 
-if ($data) {
+if ($data)
   Utils::sanitize_fields($data);
-  foreach ($city->fields as $field)
-    $city->{$field} = $data->{$field};
-}
 
 switch ($_SERVER['REQUEST_METHOD']) {
   case 'GET':
@@ -38,16 +35,20 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    if (Utils::isset_all($city, $city->fields))
+    if (Utils::isset_all($data, $city->fields)) {
+      foreach ($city->fields as $field)
+        $city->{$field} = $data->{$field};
       $city->update() ? Response::send(200, array("message" => "City was updated.")) : Response::send(503, array("message" => "Unable to update city."));
-    else
+    } else
       Response::send(400, array("message" => "Unable to update city. Data is incomplete."));
     break;
   case 'POST':
-    $city->id = UUID::v4();
-    if (Utils::isset_all($city, $city->fields))
+    $data->id = UUID::v4();
+    if (Utils::isset_all($data, $city->fields)) {
+      foreach ($city->fields as $field)
+        $city->{$field} = $data->{$field};
       $city->add() ? Response::send(201, array("message" => "City was added.")) : Response::send(503, array("message" => "Unable to add city."));
-    else
+    } else
       Response::send(400, array("message" => "Unable to add city. Data is incomplete."));
     break;
   case 'DELETE':
