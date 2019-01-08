@@ -38,13 +38,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    if (Utils::isset_all($data, $room->fields))
+    if (Utils::isset_all($room, $room->fields))
       $room->update() ? Response::send(200, array("message" => "Room was updated.")) : Response::send(503, array("message" => "Unable to update room."));
     else
       Response::send(400, array("message" => "Unable to update room. Data is incomplete."));
     break;
   case 'POST':
-    if (Utils::isset_all($data, $room->fields))
+    $room->id = UUID::v4();
+    if (Utils::isset_all($room, $room->fields))
       $room->add() ? Response::send(201, array("message" => "Room was added.")) : Response::send(503, array("message" => "Unable to add room."));
     else
       Response::send(400, array("message" => "Unable to add room. Data is incomplete."));

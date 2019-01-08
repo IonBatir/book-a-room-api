@@ -38,13 +38,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    if (Utils::isset_all($data, $review->fields))
+    if (Utils::isset_all($review, $review->fields))
       $review->update() ? Response::send(200, array("message" => "Review was updated.")) : Response::send(503, array("message" => "Unable to update review."));
     else
       Response::send(400, array("message" => "Unable to update review. Data is incomplete."));
     break;
   case 'POST':
-    if (Utils::isset_all($data, $review->fields))
+    $review->id = UUID::v4();
+    if (Utils::isset_all($review, $review->fields))
       $review->add() ? Response::send(201, array("message" => "Review was added.")) : Response::send(503, array("message" => "Unable to add review."));
     else
       Response::send(400, array("message" => "Unable to add review. Data is incomplete."));

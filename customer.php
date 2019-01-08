@@ -38,13 +38,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    if (Utils::isset_all($data, $customer->fields))
+    if (Utils::isset_all($customer, $customer->fields))
       $customer->update() ? Response::send(200, array("message" => "Customer was updated.")) : Response::send(503, array("message" => "Unable to update customer."));
     else
       Response::send(400, array("message" => "Unable to update customer. Data is incomplete."));
     break;
   case 'POST':
-    if (Utils::isset_all($data, $customer->fields))
+    $customer->id = UUID::v4();
+    if (Utils::isset_all($customer, $customer->fields))
       $customer->add() ? Response::send(201, array("message" => "Customer was added.")) : Response::send(503, array("message" => "Unable to add customer."));
     else
       Response::send(400, array("message" => "Unable to add customer. Data is incomplete."));

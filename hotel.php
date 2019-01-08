@@ -38,13 +38,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    if (Utils::isset_all($data, $hotel->fields))
+    if (Utils::isset_all($hotel, $hotel->fields))
       $hotel->update() ? Response::send(200, array("message" => "Hotel was updated.")) : Response::send(503, array("message" => "Unable to update hotel."));
     else
       Response::send(400, array("message" => "Unable to update hotel. Data is incomplete."));
     break;
   case 'POST':
-    if (Utils::isset_all($data, $hotel->fields))
+    $hotel->id = UUID::v4();
+    if (Utils::isset_all($hotel, $hotel->fields))
       $hotel->add() ? Response::send(201, array("message" => "Hotel was added.")) : Response::send(503, array("message" => "Unable to add hotel."));
     else
       Response::send(400, array("message" => "Unable to add hotel. Data is incomplete."));

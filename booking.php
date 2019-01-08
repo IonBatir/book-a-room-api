@@ -38,13 +38,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    if (Utils::isset_all($data, $booking->fields))
+    if (Utils::isset_all($booking, $booking->fields))
       $booking->update() ? Response::send(200, array("message" => "Booking was updated.")) : Response::send(503, array("message" => "Unable to update booking."));
     else
       Response::send(400, array("message" => "Unable to update booking. Data is incomplete."));
     break;
   case 'POST':
-    if (Utils::isset_all($data, $booking->fields))
+    $booking->id = UUID::v4();
+    if (Utils::isset_all($booking, $booking->fields))
       $booking->add() ? Response::send(201, array("message" => "Booking was added.")) : Response::send(503, array("message" => "Unable to add booking."));
     else
       Response::send(400, array("message" => "Unable to add booking. Data is incomplete."));

@@ -38,13 +38,14 @@ switch ($_SERVER['REQUEST_METHOD']) {
     }
     break;
   case 'PUT':
-    if (Utils::isset_all($data, $city->fields))
+    if (Utils::isset_all($city, $city->fields))
       $city->update() ? Response::send(200, array("message" => "City was updated.")) : Response::send(503, array("message" => "Unable to update city."));
     else
       Response::send(400, array("message" => "Unable to update city. Data is incomplete."));
     break;
   case 'POST':
-    if (Utils::isset_all($data, $city->fields))
+    $city->id = UUID::v4();
+    if (Utils::isset_all($city, $city->fields))
       $city->add() ? Response::send(201, array("message" => "City was added.")) : Response::send(503, array("message" => "Unable to add city."));
     else
       Response::send(400, array("message" => "Unable to add city. Data is incomplete."));
