@@ -2,6 +2,7 @@
 class Room {
   private $conn;
   private $table_name = "rooms";
+  private $view_name = "rooms_view";
 
   public $id;
   public $hotel_id;
@@ -19,7 +20,7 @@ class Room {
   }
 
   function get_all(){
-    $query = "SELECT * FROM ".$this->table_name;
+    $query = "SELECT * FROM ".$this->view_name;
 
     $stmt = $this->conn->prepare($query);
   
@@ -29,7 +30,7 @@ class Room {
   }
 
   function get() {
-    $query = "SELECT * FROM ".$this->table_name." WHERE id = :id LIMIT 1";
+    $query = "SELECT * FROM ".$this->view_name." WHERE id = :id LIMIT 1";
 
     $stmt = $this->conn->prepare($query);
 
